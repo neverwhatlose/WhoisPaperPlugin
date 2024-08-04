@@ -1,10 +1,13 @@
-package ru.nwtls.whoispaperplugin.listening;
+package ru.nwtls.whoispaperplugin;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+//todo: database con not in WhoisPlugin.java
+//todo: PlayersDatabase.kt
 
 public class PlayersDatabase {
     private final Connection con;

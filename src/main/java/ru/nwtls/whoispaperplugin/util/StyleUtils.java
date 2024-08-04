@@ -91,6 +91,10 @@ public class StyleUtils {
         return component.clickEvent(ClickEvent.suggestCommand(command));
     }
 
+    public static @NotNull Component insertion(@NotNull String insertion, @NotNull Object @NotNull ... objects) {
+        return single(components(objects)).insertion(insertion);
+    }
+
     public static @NotNull Component runCommand(@NotNull Component component, @NotNull String command) {
         return component.clickEvent(ClickEvent.runCommand(command));
     }

@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import ru.nwtls.whoispaperplugin.PlayersDatabase;
 import ru.nwtls.whoispaperplugin.WhoisPlugin;
 
 public class EventListener implements Listener {
@@ -16,6 +17,6 @@ public class EventListener implements Listener {
         } else {
             db.addPlayerJoin(player.getName(), System.currentTimeMillis());
         }
-        System.out.println(db.isExists(player.getName()));
     }
+    //todo: onLeave() hover!
 }

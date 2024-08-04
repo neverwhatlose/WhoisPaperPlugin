@@ -6,9 +6,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import ru.nwtls.whoispaperplugin.chat.ChatModule;
 import ru.nwtls.whoispaperplugin.command.WhoisCommand;
+import ru.nwtls.whoispaperplugin.gui.GuiListener;
 import ru.nwtls.whoispaperplugin.listening.EventListener;
-import ru.nwtls.whoispaperplugin.listening.PlayersDatabase;
+import ru.nwtls.whoispaperplugin.player.ProfileCommand;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,9 +25,9 @@ public class WhoisPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         PaperCommandManager<CommandSender> commandManager;
-
-        EventListener eventListener = new EventListener();
-        Bukkit.getPluginManager().registerEvents(eventListener, this);
+        Bukkit.getPluginManager().registerEvents(new EventListener(), this);
+        Bukkit.getPluginManager().registerEvents(new ChatModule(), this);
+        Bukkit.getPluginManager().registerEvents(new GuiListener(), this);
         try {
             commandManager = new PaperCommandManager<>(
                     this,
@@ -39,7 +41,7 @@ public class WhoisPlugin extends JavaPlugin {
 
         db = new PlayersDatabase(databaseConnection());
         new WhoisCommand(commandManager);
-
+        new ProfileCommand(commandManager);
     }
 
     @Override
