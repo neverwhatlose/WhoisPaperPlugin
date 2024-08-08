@@ -2,20 +2,29 @@ package ru.nwtls.whoispaperplugin.player;
 
 import cloud.commandframework.bukkit.parsers.PlayerArgument;
 import cloud.commandframework.paper.PaperCommandManager;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
+import ru.nwtls.whoispaperplugin.PlayersDatabase;
 import ru.nwtls.whoispaperplugin.WhoisPlugin;
 import ru.nwtls.whoispaperplugin.gui.Button;
 import ru.nwtls.whoispaperplugin.gui.Gui;
+import ru.nwtls.whoispaperplugin.gui.GuiManager;
+import ru.nwtls.whoispaperplugin.util.Formatter;
 
-import static ru.nwtls.whoispaperplugin.util.StyleUtils.gray;
+import java.util.ArrayList;
+import java.util.List;
+
+import static ru.nwtls.whoispaperplugin.util.StyleUtils.*;
 
 public class ProfileCommand {
-    private static final @NotNull WhoisPlugin plugin = WhoisPlugin.getInstance();
+    private final PlayersDatabase db = WhoisPlugin.getDatabase();
     public ProfileCommand(@NotNull PaperCommandManager<CommandSender> manager) {
         manager.command(manager
                 .commandBuilder("profile")
@@ -29,15 +38,29 @@ public class ProfileCommand {
     }
 
     private void handle(@NotNull Player player) {
-        Gui inv = new Gui(gray("profile"), 3);
-        Button button = new Button(ItemStack.of(Material.WHITE_STAINED_GLASS_PANE), "testingi");
+        GuiManager manager = new GuiManager();
+        Gui inv = new Gui(gray("profile"), 3, player);
+
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(player.getUniqueId());
+
+        List<Component> lore = new ArrayList<>();
+        Component firstJoin = single(yellow("Первый вход: "), gray(Formatter.formatTime(db.getFirstJoin(player.getName()))));
+        Component lastJoin = single(yellow("Последний вход: "), gray(Formatter.formatTime(db.getLastJoin(player.getName()))));
+
+        lore.add(firstJoin);
+        lore.add(lastJoin);
+
+        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta meta = (SkullMeta) head.getItemMeta();
+        meta.setOwningPlayer(offlinePlayer);
+        head.setItemMeta(meta);
+
+        Button button = new Button(
+                head,
+                player.getName(),
+                lore
+        );
         inv.setButton(1, 4, button);
-
-        // [0] [1] [2] [3] [4] [5] [6] [7] [8] - [0]
-        // [0] [1] [2] [3] [4] [5] [6] [7] [8] - [1]
-        // [0] [1] [2] [3] [4] [5] [6] [7] [8] - [2]
-
-        player.openInventory(inv.getInventory());
-        player.setMetadata("profile", new FixedMetadataValue(plugin, true));
+        manager.showGui(player, inv);
     }
 }

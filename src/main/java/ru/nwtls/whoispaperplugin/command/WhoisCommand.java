@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import ru.nwtls.whoispaperplugin.WhoisPlugin;
 import ru.nwtls.whoispaperplugin.PlayersDatabase;
 import ru.nwtls.whoispaperplugin.util.Formatter;
-import ru.nwtls.whoispaperplugin.util.TimeFormat;
 
 import static ru.nwtls.whoispaperplugin.util.StyleUtils.*;
 
@@ -34,8 +33,8 @@ public class WhoisCommand {
 
         Component status = single(yellow("Статус: "), dude.isOnline() ? green("Онлайн") : red("Оффлайн"));
 
-        Component firstjoin = single(yellow("Первый вход: "), gray(TimeFormat.formatTime(db.getFirstJoin(dude.getName()))));
-        Component lastjoin = single(yellow("Последний вход: "), gray(TimeFormat.formatTime(db.getLastJoin(dude.getName()))));
+        Component firstjoin = single(yellow("Первый вход: "), gray(Formatter.formatTime(db.getFirstJoin(dude.getName()))));
+        Component lastjoin = single(yellow("Последний вход: "), gray(Formatter.formatTime(db.getLastJoin(dude.getName()))));
 
         Component playerCords = single(yellow("Координаты: "),
                                 suggestCommand(hover(gray(Formatter.locationToString(dude.getLocation())),
