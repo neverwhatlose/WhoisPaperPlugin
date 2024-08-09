@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Gui implements InventoryHolder {
-    private static final @NotNull WhoisPlugin plugin = WhoisPlugin.getInstance();
     private final Inventory inventory;
     private final int rows;
     private final Component title;
@@ -60,7 +59,7 @@ public class Gui implements InventoryHolder {
      */
 
     @Contract("_, _, _ -> this")
-    public @NotNull Gui setButton(@Range(from = 0, to = 5) int row, @Range(from = 0, to = 8) int column, @NotNull Button button, Player player) {
+    public @NotNull Gui setButton(@Range(from = 0, to = 5) int row, @Range(from = 0, to = 8) int column, @NotNull Button button) {
         if (checkRange(this, row)) {
             this.inventory.setItem(row * 9 + column, button.getItem());
             this.buttons.put(row * 9 + column, button);
@@ -68,15 +67,11 @@ public class Gui implements InventoryHolder {
         return this;
     }
 
-    public static @NotNull GuiManager getManager() {
-        return manager;
-    }
-
     public HashMap<Integer, Button> getButtons() {
         return this.buttons;
     }
 
-    public static boolean checkRange(@NotNull Gui inv, int row) {
+    private static boolean checkRange(@NotNull Gui inv, int row) {
         return inv.getRows() - 1 >= row;
     }
 }

@@ -60,10 +60,14 @@ public class ProfileCommand {
                 head,
                 player.getName(),
                 lore,
-                new Gui(component("ebanat"), 6, player)
+                //new Gui(component("ebanat"), 6, player)
+                "tp 0 150 0"
         );
-        gui.setButton(1, 4, button, player);
+        gui.setButton(1, 4, button);
+
         manager.showGui(player, gui);
-        manager.updateGui(player, gui);
+
+        // Чисто технически, updateGui не нужен,
+        // поскольку showGui обновляет Gui в HashMap
     }
 }

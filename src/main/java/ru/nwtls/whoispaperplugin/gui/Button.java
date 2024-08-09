@@ -44,6 +44,7 @@ public class Button {
             if (title != null) meta.displayName(destyle(aqua(title)));
         });
         this.id = id;
+        this.type = ButtonType.DECORATIVE;
     }
 
     /**
@@ -88,6 +89,10 @@ public class Button {
     public void execute(GuiManager manager, Player player) {
         if (this.type == ButtonType.DECORATIVE) return;
         if (this.param instanceof Gui gui) manager.showGui(player, gui);
-        System.out.println("trying to show gui");
+        if (this.param instanceof String command) {
+            player.performCommand(command);
+            player.closeInventory();
+            manager.closeGui(player);
+        }
     }
 }

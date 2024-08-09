@@ -4,6 +4,7 @@ import com.google.gson.internal.bind.util.ISO8601Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.nwtls.whoispaperplugin.WhoisPlugin;
 
 import java.util.HashMap;
@@ -13,19 +14,13 @@ public class GuiManager {
     private final HashMap<UUID, Gui> guis = new HashMap<>();
     private static final WhoisPlugin plugin = WhoisPlugin.getInstance();
 
-    public GuiManager() {
-
-    }
+    public GuiManager() { }
 
     public void addGui(@NotNull Player player, @NotNull Gui gui) {
         guis.put(player.getUniqueId(), gui);
     }
 
-    public Gui getGui(@NotNull Player player) {
-        return guis.get(player.getUniqueId());
-    }
-
-    public Gui getGui(@NotNull UUID uuid) {
+    public @Nullable Gui getGui(@NotNull UUID uuid) {
         return guis.get(uuid);
     }
 
@@ -52,10 +47,10 @@ public class GuiManager {
     public void closeGui(@NotNull Player player) {
         if (!(player.hasMetadata("profile"))) return;
         player.removeMetadata("profile", plugin);
-        guis.remove(player.getName());
+        guis.remove(player.getUniqueId());
     }
 
-    public HashMap<UUID, Gui> getGuis() {
+    public @NotNull HashMap<UUID, Gui> getGuis() {
         return guis;
     }
 }

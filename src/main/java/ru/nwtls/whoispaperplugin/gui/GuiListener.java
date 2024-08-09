@@ -23,30 +23,24 @@ public class GuiListener implements Listener {
 
     @EventHandler
     public void onClick(@NotNull InventoryClickEvent event) {
-        Inventory inv = event.getClickedInventory();
         Player player = (Player) event.getWhoClicked();
-        if (inv == null || player.getMetadata("profile").isEmpty()) return;
-        event.setCancelled(true);
-
         Gui gui = manager.getGui(player.getUniqueId());
+
+        if (event.getClickedInventory() == null || player.getMetadata("profile").isEmpty() || gui == null) return;
+        event.setCancelled(true);
 
         Button button = gui.getButtonById(event.getSlot());
         if (button == null) return;
         button.execute(manager, player);
     }
 
-//    @EventHandler
-//    public void onClose(@NotNull InventoryCloseEvent event) {
-//        Inventory inv = event.getInventory();
-//        if (!(inv.getHolder() instanceof Gui gui)) return;
-//        gui = (Gui) event.getInventory().getHolder();
-//        gui.closeInventory((Player) event.getPlayer());
-//    }
+    @EventHandler
+    public void onClose(@NotNull InventoryCloseEvent event) {
+        manager.closeGui((Player) event.getPlayer());
+    }
 
     @EventHandler
     public void onPlayerLeave(@NotNull PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        if (!(player.hasMetadata("profile"))) return;
-        player.removeMetadata("profile", plugin);
+        manager.closeGui(event.getPlayer());
     }
 }
