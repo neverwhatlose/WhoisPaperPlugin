@@ -20,11 +20,13 @@ import ru.nwtls.whoispaperplugin.util.Formatter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.DoubleToIntFunction;
 
 import static ru.nwtls.whoispaperplugin.util.StyleUtils.*;
 
 public class ProfileCommand {
     private final PlayersDatabase db = WhoisPlugin.getDatabase();
+    private static final GuiManager manager = WhoisPlugin.getManager();
     public ProfileCommand(@NotNull PaperCommandManager<CommandSender> manager) {
         manager.command(manager
                 .commandBuilder("profile")
@@ -38,8 +40,7 @@ public class ProfileCommand {
     }
 
     private void handle(@NotNull Player player) {
-        GuiManager manager = new GuiManager();
-        Gui inv = new Gui(gray("profile"), 3, player);
+        Gui gui = new Gui(gray("profile"), 3, player);
 
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(player.getUniqueId());
 
@@ -58,9 +59,14 @@ public class ProfileCommand {
         Button button = new Button(
                 head,
                 player.getName(),
-                lore
+                lore,
+                new Gui(component("ebanat"), 6, player)
         );
-        inv.setButton(1, 4, button);
-        manager.showGui(player, inv);
+        gui = gui.setButton(1, 4, button, player);
+        System.out.println(gui.getButtons());
+        System.out.println("Manager in Command - " + manager);
+        System.out.println("-----");
+        manager.showGui(player, gui);
+        manager.updateGui(player, gui);
     }
 }

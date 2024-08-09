@@ -1,5 +1,6 @@
 package ru.nwtls.whoispaperplugin.gui;
 
+import com.google.gson.internal.bind.util.ISO8601Utils;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +19,7 @@ import static ru.nwtls.whoispaperplugin.util.StyleUtils.*;
 
 public class GuiListener implements Listener {
     private static final @NotNull WhoisPlugin plugin = WhoisPlugin.getInstance();
-    private final @NotNull GuiManager manager = new GuiManager();
+    private static final @NotNull GuiManager manager = WhoisPlugin.getManager();
 
     @EventHandler
     public void onClick(@NotNull InventoryClickEvent event) {
@@ -27,9 +28,9 @@ public class GuiListener implements Listener {
         if (inv == null || player.getMetadata("profile").isEmpty()) return;
         event.setCancelled(true);
 
-        if (manager.getGui(player).getButtonById(event.getSlot()) == null) return;
-        Button button = manager.getGui(player).getButtonById(event.getSlot());
-        System.out.println(button.getTitle());
+        Gui gui = manager.getGui(player.getUniqueId());
+        System.out.println(gui.getButtons());
+        System.out.println("manager in Listener - " + manager);
     }
 
 //    @EventHandler

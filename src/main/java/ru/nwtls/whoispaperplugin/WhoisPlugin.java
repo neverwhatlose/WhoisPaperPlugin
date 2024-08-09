@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import ru.nwtls.whoispaperplugin.chat.ChatModule;
 import ru.nwtls.whoispaperplugin.command.WhoisCommand;
 import ru.nwtls.whoispaperplugin.gui.GuiListener;
+import ru.nwtls.whoispaperplugin.gui.GuiManager;
 import ru.nwtls.whoispaperplugin.listening.EventListener;
 import ru.nwtls.whoispaperplugin.player.ProfileCommand;
 
@@ -21,13 +22,17 @@ import static ru.nwtls.whoispaperplugin.Constants.*;
 
 public class WhoisPlugin extends JavaPlugin {
     private static PlayersDatabase db;
+    private static @NotNull GuiManager manager;
 
     @Override
     public void onEnable() {
         PaperCommandManager<CommandSender> commandManager;
+        manager = new GuiManager();
+
         Bukkit.getPluginManager().registerEvents(new EventListener(), this);
         Bukkit.getPluginManager().registerEvents(new ChatModule(), this);
         Bukkit.getPluginManager().registerEvents(new GuiListener(), this);
+
         try {
             commandManager = new PaperCommandManager<>(
                     this,
@@ -62,6 +67,10 @@ public class WhoisPlugin extends JavaPlugin {
         }
         System.out.println("Database connection established");
         return con;
+    }
+
+    public static @NotNull GuiManager getManager() {
+        return manager;
     }
 
     public static @NotNull PlayersDatabase getDatabase() {
