@@ -29,8 +29,10 @@ public class GuiListener implements Listener {
         event.setCancelled(true);
 
         Gui gui = manager.getGui(player.getUniqueId());
-        System.out.println(gui.getButtons());
-        System.out.println("manager in Listener - " + manager);
+
+        Button button = gui.getButtonById(event.getSlot());
+        if (button == null) return;
+        button.execute(manager, player);
     }
 
 //    @EventHandler

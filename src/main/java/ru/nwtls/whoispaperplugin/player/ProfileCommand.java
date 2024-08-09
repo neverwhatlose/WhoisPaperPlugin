@@ -62,10 +62,7 @@ public class ProfileCommand {
                 lore,
                 new Gui(component("ebanat"), 6, player)
         );
-        gui = gui.setButton(1, 4, button, player);
-        System.out.println(gui.getButtons());
-        System.out.println("Manager in Command - " + manager);
-        System.out.println("-----");
+        gui.setButton(1, 4, button, player);
         manager.showGui(player, gui);
         manager.updateGui(player, gui);
     }

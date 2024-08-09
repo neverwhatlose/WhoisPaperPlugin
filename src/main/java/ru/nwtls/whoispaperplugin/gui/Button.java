@@ -73,6 +73,7 @@ public class Button {
                     .map(StyleUtils::destyle)
                     .toList());
         });
+        this.type = ButtonType.EXECUTABLE;
         this.param = obj;
     }
 

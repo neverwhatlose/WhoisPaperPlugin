@@ -26,8 +26,6 @@ public class GuiManager {
     }
 
     public Gui getGui(@NotNull UUID uuid) {
-        System.out.println(guis);
-        System.out.println(guis.get(uuid).getButtons());
         return guis.get(uuid);
     }
 
@@ -48,9 +46,7 @@ public class GuiManager {
             System.out.println("Gui does not exists");
             return;
         }
-        System.out.println("GUI!!!!! " + gui);
         guis.put(player.getUniqueId(), gui);
-        System.out.println("GUUUI " + guis.get(player.getUniqueId()));
     }
 
     public void closeGui(@NotNull Player player) {
